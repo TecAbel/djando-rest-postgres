@@ -1,7 +1,6 @@
 from typing import Generic, TypeVar
 
 from rest_framework import serializers
-from rest_framework.renderers import JSONRenderer
 
 from .models import Roles
 
@@ -18,17 +17,11 @@ T = TypeVar("T")
 
 class BaseResponse(Generic[T]):
     message: str
-    data: T
+    data: serializers.ReturnDict
 
-    def __init__(self, message: str, data: T):
+    def __init__(self, message: str, data: serializers.ModelSerializer):
         self.message = message
-        self.data = data
+        self.data = data.data
 
     def toJson(self):
         return {"message": self.message, "data": self.data}
-
-
-# BaseResponse = TypedDict({
-#     "message": str,
-#     "data"
-#     })
