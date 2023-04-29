@@ -25,3 +25,8 @@ class BaseResponse(Generic[T]):
 
     def toJson(self):
         return {"message": self.message, "data": self.data}
+
+
+class CustomSerializer(serializers.Serializer):
+    message = serializers.CharField()
+    data = serializers.ListSerializer(child=RolesSerializer())

@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: SAPS API
+  version: 0.1.0
+  description: Sistema administrativo de productos y servicios API
+paths:
+  /api/v1/roles/:
+    get:
+      operationId: api_v1_roles_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Custom'
+          description: ''
+components:
+  schemas:
+    Custom:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Roles'
+      required:
+      - data
+      - message
+    Roles:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 20
+        description:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - id
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
