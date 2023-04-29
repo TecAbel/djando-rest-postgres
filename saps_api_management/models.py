@@ -9,7 +9,7 @@ from django.db import models
 
 
 class Roles(models.Model):
-    name = models.CharField(max_length=20, blank=True, null=True)
+    name = models.CharField(max_length=20)
     description = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
