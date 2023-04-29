@@ -18,11 +18,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Custom'
+                $ref: '#/components/schemas/RoleListResponse'
           description: ''
 components:
   schemas:
-    Custom:
+    RoleListResponse:
       type: object
       properties:
         message:

@@ -27,6 +27,6 @@ class BaseResponse(Generic[T]):
         return {"message": self.message, "data": self.data}
 
 
-class CustomSerializer(serializers.Serializer):
+class RoleListResponse(serializers.Serializer):
     message = serializers.CharField()
-    data = serializers.ListSerializer(child=RolesSerializer())
+    data: any = serializers.ListField(child=RolesSerializer())

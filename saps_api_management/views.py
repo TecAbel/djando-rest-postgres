@@ -3,13 +3,17 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Roles
-from .serializer import BaseResponse, CustomSerializer, RolesSerializer
+from .serializer import (
+    BaseResponse,
+    RoleListResponse,
+    RolesSerializer,
+)
 
 # Create your views here.
 
 
 class RolesList(APIView):
-    @extend_schema(responses=CustomSerializer)
+    @extend_schema(responses=RoleListResponse)
     def get(self, __):
         roles = Roles.objects.all()
         serializer = RolesSerializer(roles, many=True)
