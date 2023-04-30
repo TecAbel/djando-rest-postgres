@@ -1,5 +1,5 @@
-from django.urls import path
-from . import views
+from django.urls import include, path
+from .modules.roles import urls as rolesUrls
 
 # from .views import RolesViewSet
 
@@ -8,5 +8,5 @@ from . import views
 
 urlpatterns = [
     # path('v1/', include(router.urls))
-    path("v1/roles/", views.RolesList.as_view()),
+    path("v1/", include(rolesUrls))
 ]

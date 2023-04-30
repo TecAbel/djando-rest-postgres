@@ -2,31 +2,16 @@ from typing import Generic, TypeVar
 
 from rest_framework import serializers
 
-from .models import Roles
-
-
-class RolesSerializer(serializers.ModelSerializer):
-    class Meta:
-        # fields = ('id', 'name', 'description')
-        model = Roles
-        fields = "__all__"
-
-
 T = TypeVar("T")
 
 
 class BaseResponse(Generic[T]):
     message: str
-    data: serializers.ReturnDict
+    content: serializers.ReturnDict
 
-    def __init__(self, message: str, data: serializers.ModelSerializer):
+    def __init__(self, message: str, content: serializers.ModelSerializer):
         self.message = message
-        self.data = data.data
+        self.content = content.data
 
     def toJson(self):
-        return {"message": self.message, "data": self.data}
-
-
-class RoleListResponse(serializers.Serializer):
-    message = serializers.CharField()
-    data: any = serializers.ListField(child=RolesSerializer())
+        return {"message": self.message, "content": self.content}

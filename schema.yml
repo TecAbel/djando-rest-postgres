@@ -27,12 +27,12 @@ components:
       properties:
         message:
           type: string
-        data:
+        content:
           type: array
           items:
             $ref: '#/components/schemas/Roles'
       required:
-      - data
+      - content
       - message
     Roles:
       type: object
