@@ -136,6 +136,7 @@ CORS_ALLOWED_ORIGINS = ["http://localhost:4200", "http://localhost:3000"]
 REST_FRAMEWORK = {
     # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "saps_api_management.exception_handler.custom_exception_handler",
 }
 
 SPECTACULAR_SETTINGS = {
@@ -143,5 +144,6 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Sistema administrativo de productos y servicios API",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": "/api/v[0-9]"
     # OTHER SETTINGS
 }

@@ -1,9 +1,8 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.exceptions import status
+from rest_framework.exceptions import NotFound, status
 from rest_framework.fields import ObjectDoesNotExist
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND
-from rest_framework.views import APIView, Http404
+from rest_framework.views import APIView
 from rest_framework.views import APIView
 
 from ...models import Roles
@@ -44,13 +43,9 @@ class RoleDetail(APIView):
     def get_object(self, pk: int):
         try:
             role = Roles.objects.get(id=pk)
-            print("role" + role)
             return role
         except ObjectDoesNotExist:
-            print("on catch")
-            res = BaseActionResponse({"message": "Role not found", "content": False})
-            print(res.data)
-            return Response(data=res.data, status=HTTP_404_NOT_FOUND)
+            raise NotFound(detail="Role not found")
 
     @extend_schema(
         responses={

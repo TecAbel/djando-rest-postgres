@@ -6,9 +6,9 @@ info:
 paths:
   /api/v1/roles/:
     get:
-      operationId: api_v1_roles_retrieve
+      operationId: roles_retrieve
       tags:
-      - api
+      - roles
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -21,9 +21,9 @@ paths:
                 $ref: '#/components/schemas/RoleListResponse'
           description: ''
     post:
-      operationId: api_v1_roles_create
+      operationId: roles_create
       tags:
-      - api
+      - roles
       requestBody:
         content:
           application/json:
@@ -47,9 +47,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseActionResponse'
           description: ''
-  /api/v1/roles/{id}:
+  /api/v1/roles/{id}/:
     get:
-      operationId: api_v1_roles_retrieve_2
+      operationId: roles_retrieve_2
       parameters:
       - in: path
         name: id
@@ -57,7 +57,7 @@ paths:
           type: integer
         required: true
       tags:
-      - api
+      - roles
       security:
       - cookieAuth: []
       - basicAuth: []
