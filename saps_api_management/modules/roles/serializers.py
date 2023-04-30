@@ -17,3 +17,8 @@ class RoleListResponse(serializers.Serializer):
 class RoleRequest(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField(required=False)
+
+
+class RoleSingleResponse(serializers.Serializer):
+    message = serializers.CharField()
+    content = RolesSerializer()

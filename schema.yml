@@ -47,6 +47,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseActionResponse'
           description: ''
+  /api/v1/roles/{id}:
+    get:
+      operationId: api_v1_roles_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleSingleResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseActionResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseActionResponse'
+          description: ''
 components:
   schemas:
     BaseActionResponse:
@@ -80,6 +114,16 @@ components:
           type: string
       required:
       - name
+    RoleSingleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        content:
+          $ref: '#/components/schemas/Roles'
+      required:
+      - content
+      - message
     Roles:
       type: object
       properties:
