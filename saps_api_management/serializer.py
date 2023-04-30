@@ -15,3 +15,8 @@ class BaseResponse(Generic[T]):
 
     def toJson(self):
         return {"message": self.message, "content": self.content}
+
+
+class BaseActionResponse(serializers.Serializer):
+    message = serializers.CharField()
+    content = serializers.BooleanField()
