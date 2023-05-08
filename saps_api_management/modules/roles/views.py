@@ -61,7 +61,7 @@ class RoleDetail(APIView):
         role = self.get_object(pk)
         serializer = RolesSerializer(role)
         rdata = BaseResponse[RolesSerializer](
-            message="Gor role successfully", content=serializer
+            message="Got role successfully", content=serializer
         )
         response = RoleSingleResponse(rdata)
         return Response(response.data)
@@ -75,3 +75,10 @@ class RoleDetail(APIView):
             res = BaseActionResponse({"message": "Role updated", "content": True})
             return Response(res.data)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    @extend_schema(responses={200: BaseActionResponse, 404: BaseActionResponse})
+    def delete(self, request, pk: int):
+        role = self.get_object(pk)
+        role.delete()
+        r = BaseActionResponse({"message": "Role deleted", "content": True})
+        return Response(r.data)
