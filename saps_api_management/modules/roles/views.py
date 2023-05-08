@@ -1,7 +1,10 @@
+from django.core.exceptions import BadRequest
+from django.http import request
 from drf_spectacular.utils import extend_schema
-from rest_framework.exceptions import NotFound, status
+from rest_framework.exceptions import NotFound, ValidationError, status
 from rest_framework.fields import ObjectDoesNotExist
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.views import APIView
 
@@ -56,11 +59,19 @@ class RoleDetail(APIView):
     )
     def get(self, request, pk: int, format=None):
         role = self.get_object(pk)
-        if isinstance(role, Response):
-            return role
         serializer = RolesSerializer(role)
         rdata = BaseResponse[RolesSerializer](
             message="Gor role successfully", content=serializer
         )
         response = RoleSingleResponse(rdata)
         return Response(response.data)
+
+    @extend_schema(request=RoleRequest, responses={200: BaseActionResponse})
+    def put(self, request, pk: int, format=None):
+        role = self.get_object(pk)
+        serializer = RolesSerializer(role, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            res = BaseActionResponse({"message": "Role updated", "content": True})
+            return Response(res.data)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
