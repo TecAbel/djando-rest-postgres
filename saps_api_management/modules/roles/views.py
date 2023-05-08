@@ -1,7 +1,5 @@
-from django.core.exceptions import BadRequest
-from django.http import request
 from drf_spectacular.utils import extend_schema
-from rest_framework.exceptions import NotFound, ValidationError, status
+from rest_framework.exceptions import NotFound, status
 from rest_framework.fields import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
@@ -57,7 +55,7 @@ class RoleDetail(APIView):
             404: BaseActionResponse,
         }
     )
-    def get(self, request, pk: int, format=None):
+    def get(self, _, pk: int):
         role = self.get_object(pk)
         serializer = RolesSerializer(role)
         rdata = BaseResponse[RolesSerializer](
@@ -67,7 +65,7 @@ class RoleDetail(APIView):
         return Response(response.data)
 
     @extend_schema(request=RoleRequest, responses={200: BaseActionResponse})
-    def put(self, request, pk: int, format=None):
+    def put(self, request, pk: int):
         role = self.get_object(pk)
         serializer = RolesSerializer(role, data=request.data)
         if serializer.is_valid():
@@ -77,7 +75,7 @@ class RoleDetail(APIView):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     @extend_schema(responses={200: BaseActionResponse, 404: BaseActionResponse})
-    def delete(self, request, pk: int):
+    def delete(self, _, pk: int):
         role = self.get_object(pk)
         role.delete()
         r = BaseActionResponse({"message": "Role deleted", "content": True})
