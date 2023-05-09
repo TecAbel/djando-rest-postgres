@@ -22,3 +22,7 @@ class RoleRequest(serializers.Serializer):
 class RoleSingleResponse(serializers.Serializer):
     message = serializers.CharField()
     content = RolesSerializer()
+
+
+class RetrieveParams(serializers.Serializer):
+    name = serializers.CharField(required=False)
