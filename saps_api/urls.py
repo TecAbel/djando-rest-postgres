@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from saps_api_management.views import BaseView
 
 # from rest_framework.documentation import include_docs_urls
 
@@ -25,6 +26,8 @@ urlpatterns = [
     path("api/", include("saps_api_management.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema")),
+    path("/", BaseView.as_view()),
+    path("", BaseView.as_view())
     # path("docs/", include_docs_urls(title="SAPS API")),
     # path('api/', include('rest_framework.urls'))
 ]

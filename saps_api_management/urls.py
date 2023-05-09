@@ -8,5 +8,5 @@ from .modules.roles import urls as rolesUrls
 
 urlpatterns = [
     # path('v1/', include(router.urls))
-    path("v1/", include(rolesUrls))
+    path("v1/", include(rolesUrls)),
 ]

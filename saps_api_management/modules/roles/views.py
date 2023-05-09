@@ -4,10 +4,9 @@ from rest_framework.fields import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from rest_framework.views import APIView
 
-from ...models import Roles
-from ...serializer import BaseActionResponse, BaseResponse
+from saps_api_management.models import Roles
+from saps_api_management.serializer import BaseActionResponse, BaseResponse
 from .serializers import (
     RoleListResponse,
     RoleRequest,
