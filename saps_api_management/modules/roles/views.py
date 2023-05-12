@@ -6,12 +6,13 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView, Request
 
 from saps_api_management.models import Roles
-from saps_api_management.serializer import BaseActionResponse, BaseResponse
-
+from saps_api_management.serializer import BaseActionResponse
 from .serializers import (
     RoleListResponse,
+    RoleListResponseSerializer,
     RoleRequest,
     RoleSingleResponse,
+    RoleSingleResponseSerializer,
     RolesSerializer,
 )
 
@@ -25,7 +26,7 @@ class RolesList(APIView):
         return queryset
 
     @extend_schema(
-        responses=RoleListResponse,
+        responses=RoleListResponseSerializer,
         parameters=[
             OpenApiParameter(
                 name="name",
@@ -36,11 +37,10 @@ class RolesList(APIView):
     )
     def get(self, request: Request):
         queryset = self.get_query_set(request)
-        serializer = RolesSerializer(queryset, many=True)
-        rdata = BaseResponse[RolesSerializer](
-            message="Usuarios obtenidos correctamente", content=serializer
+        rdata = RoleListResponse(
+            message="Got users successfully", content=set(queryset)
         )
-        response = RoleListResponse(rdata)
+        response = RoleListResponseSerializer(rdata)
         return Response(response.data)
 
     @extend_schema(request=RoleRequest, responses=BaseActionResponse)
@@ -68,18 +68,15 @@ class RoleDetail(APIView):
 
     @extend_schema(
         responses={
-            200: RoleSingleResponse,
+            200: RoleSingleResponseSerializer,
             400: BaseActionResponse,
             404: BaseActionResponse,
         }
     )
     def get(self, _, pk: int):
         role = self.get_object(pk)
-        serializer = RolesSerializer(role)
-        rdata = BaseResponse[RolesSerializer](
-            message="Got role successfully", content=serializer
-        )
-        response = RoleSingleResponse(rdata)
+        rdata = RoleSingleResponse(message="Got role successfully", content=role)
+        response = RoleSingleResponseSerializer(rdata)
         return Response(response.data)
 
     @extend_schema(request=RoleRequest, responses={200: BaseActionResponse})
