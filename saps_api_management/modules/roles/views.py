@@ -1,3 +1,4 @@
+from typing import Iterable
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework.exceptions import NotFound, status
 from rest_framework.fields import ObjectDoesNotExist
@@ -6,7 +7,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView, Request
 
 from saps_api_management.models import Roles
-from saps_api_management.serializer import BaseActionResponse
+from saps_api_management.serializer import BaseActionResponse, BaseResponse
 from .serializers import (
     RoleListResponse,
     RoleListResponseSerializer,
@@ -37,8 +38,8 @@ class RolesList(APIView):
     )
     def get(self, request: Request):
         queryset = self.get_query_set(request)
-        rdata = RoleListResponse(
-            message="Got users successfully", content=set(queryset)
+        rdata = BaseResponse[Iterable[Roles]](
+            message="Gor roles successfully", content=set(queryset)
         )
         response = RoleListResponseSerializer(rdata)
         return Response(response.data)
@@ -48,12 +49,8 @@ class RolesList(APIView):
         serializer = RolesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            response = BaseActionResponse(
-                {
-                    "message": "Role added successfully",
-                    "content": True,
-                }
-            )
+            rdata = BaseResponse[bool](message="Role added successfully", content=True)
+            response = BaseActionResponse(rdata)
             return Response(response.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
